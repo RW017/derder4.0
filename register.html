@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="font/font.css">
+  <title>Register</title>
+  <style>
+    body {
+      font-family: 'FakePearl-Regular';
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      padding: 50px;
+      font-size: 1.2rem;
+    }
+
+    form {
+    width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 3.5em;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 80%;
+      height: 80px;
+      padding: 20px 30px;
+      margin: 16px 0;
+      display: inline-block;
+      border: none;
+      border-radius: 8px;
+      box-sizing: border-box;
+      background-color: lightgray;
+      font-size: 2rem;
+    }
+
+    label {
+      margin-right: 15px;
+    }
+
+    .radio-group {
+      display: flex;
+      justify-content: center;
+      margin: 10px;
+      font-size: 2rem;
+    }
+    button {
+      background-color: #025CD3;
+      color: white;
+      padding: 20px 30px;
+      margin: 16px 0;
+      border: none;
+      cursor: pointer;
+      border-radius: 8px;
+      font-size: 2rem;
+    }
+
+    a {
+      color: #025CD3;
+      text-decoration: none;
+      font-size: 2rem;
+    }
+
+    a:hover {
+      color: #0191CB;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>讓德德成為你的行動管家</h1>
+  <form action="index.html" method="post">
+    <input type="text" placeholder="使用者名稱">
+    <input type="password" placeholder="使用者密碼">
+    <input type="password" placeholder="密碼確認">
+
+    <div class="radio-group">
+      <label><input type="radio" name="group1" value="11號公車"> 11號公車</label>
+      <label><input type="radio" name="group1" value="山道猴子"> 山道猴子</label>
+      <label><input type="radio" name="group1" value="瑪莎拉蒂學弟"> 瑪莎拉蒂學弟</label>
+    </div>
+
+    <div class="radio-group">
+      <label><input type="radio" name="group2" value="小名"> 小名</label>
+      <label><input type="radio" name="group2" value="小美"> 小美</label>
+      <label><input type="radio" name="group2" value="小王"> 小王</label>
+    </div>
+
+    <button type="submit">Submit</button>
+  </form>
+</body>
+</html>

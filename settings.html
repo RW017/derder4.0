@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="font/font.css">
+    <title>個人設定</title>
+    <style>
+        body {
+            font-family: 'FakePearl-Regular';
+            background-color: #e7b630;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .header {
+            background-color: black;
+            color: white;
+            padding: 10px 20px;
+            width: 50%; 
+            text-align: center;
+            border-radius: 10px; 
+            margin-bottom: 20px; 
+        }
+
+        .settings-box {
+            background-color: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            width: 300px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+            background-image: url('dain.jpg');
+            background-size: cover;
+            background-position: center;
+            border-radius: 50%;
+        }
+
+        .input-field {
+            margin-bottom: 10px;
+        }
+
+        .label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .radio-label {
+            margin-right: 10px;
+        }
+
+        .save-button {
+            background-color: black;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            border: none;
+            width: 35%;
+            margin: 0 auto; 
+            display: block; 
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">個人設定</div>
+
+    <div class="settings-box">
+        <div class="user-info">
+            <div class="avatar"></div>
+            <span>dain.jpg</span>
+        </div>
+
+        <div class="input-field">
+            <label class="label" for="username">使用者名稱:</label>
+            <input type="text" id="username" value="Alice">
+        </div>
+
+        <div class="input-field">
+            <label class="label" for="password">密碼:</label>
+            <input type="password" id="password" value="**********">
+        </div>
+
+        <div class="input-field">
+            <label class="label">使用工具:</label>
+            <label class="radio-label"><input type="radio" name="tool" value="1"> 1</label>
+            <label class="radio-label"><input type="radio" name="tool" value="2"> 2</label>
+            <label class="radio-label"><input type="radio" name="tool" value="3"> 3</label>
+        </div>
+
+        <div class="input-field">
+            <label class="label" for="email">email:</label>
+            <input type="text" id="email" value="d123456@gmaill.com" readonly>
+        </div>
+
+        
+    </div>
+    <a href="info.html">
+        <button class="save-button">儲存</button>
+    </a>
+</div>
+</body>
+
+</html>

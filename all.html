@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="font/font.css">
+    <link rel="stylesheet" href="btn.css">
+    <link rel="stylesheet" href="body.css">
+    <title>Three Sections</title>
+    <style>
+        .content {
+            background-color: #f6d258;
+            display: flex;
+        }
+
+        .go_on {
+            margin-top: 5%;
+            width: 80%;
+            background-color: black;
+            border: 3px solid rgb(0, 0, 0);
+            border-radius: 25px 25px 0 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .go_on h3 {
+            color: #ffffff;
+        }
+
+        .go_inn {
+            width: 80%;
+            background-color: rgb(255, 255, 255);
+            border: 3px solid rgb(0, 0, 0);
+            border-radius: 0 0 25px 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .map {
+            padding-top: 5%;
+            padding-bottom: 5%;
+            width: 80%;
+            height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scrollable-list {
+            width: 80%;
+            height: 35%;
+            overflow-y: auto;
+        }
+
+        .list-item {
+            background-color: #ffffff;
+            padding: 10px 20px;
+            margin: 5px 20px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .btn{
+            padding:10%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="side1">
+        <img src="logo.jpg" alt="Logo">
+        <div class="to_all">
+            <a href="home2.0.html">回到主頁</a>
+            <a href="all.html">查看目前所有行程</a>
+            <a href="add_new.html">新增行程</a>
+            <a href="user.html">個人設定</a>
+            <a href="index.html">登出</a>
+        </div>
+    </div>
+    <div class="mid">
+        <div class="content">
+            <h1>儀錶板</h1>
+            <div class="go_on">
+                <h3>下個行程</h3>
+
+            </div>
+            <div class="go_inn">
+                <h4>逢甲圖書館</h4>
+            </div>
+            <div class="map">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.7986189154967!2d120.64395077534938!3d24.178794378380495!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691623a7988aa7%3A0x73dd146c41c3035a!2z6YCi55Sy5aSn5a24!5e0!3m2!1szh-TW!2stw!4v1695633133296!5m2!1szh-TW!2stw"
+                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+            </div>
+
+            <div class="scrollable-list" id="draggableList">
+                <div class="list-item" draggable="true">逢甲圖書館</div>
+                <div class="list-item" draggable="true">赤鬼牛排 逢甲</div>
+                <div class="list-item" draggable="true">大創 逢甲</div>
+                <div class="list-item" draggable="true">回至西安街277巷</div>
+                <div class="list-item" draggable="true">前往台中高鐵</div>
+            </div>
+
+
+            <div class="btn">
+                <button class="button-82-pushable" role="button">
+                    <span class="button-82-front text">
+                        新增
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="side2">
+        這邊還在想放什麼
+        <img src="dain.jpg" alt="Logo">
+    </div>
+    <script>
+        let draggedItem = null;
+
+        document.addEventListener('dragstart', function (event) {
+            draggedItem = event.target;
+            setTimeout(function () {
+                draggedItem.style.display = 'none';
+            }, 0);
+        });
+
+        document.addEventListener('dragend', function (event) {
+            setTimeout(function () {
+                draggedItem.style.display = 'block';
+                draggedItem = null;
+            }, 0);
+        });
+
+        document.getElementById('draggableList').addEventListener('dragover', function (event) {
+            event.preventDefault();
+        });
+
+        document.getElementById('draggableList').addEventListener('dragenter', function (event) {
+            if (event.target.className == 'list-item') {
+                event.target.style['border-top'] = 'solid 4px #f6d258';
+            }
+        });
+
+        document.getElementById('draggableList').addEventListener('dragleave', function (event) {
+            if (event.target.className == 'list-item') {
+                event.target.style['border-top'] = '';
+            }
+        });
+
+        document.getElementById('draggableList').addEventListener('drop', function (event) {
+            if (event.target.className == 'list-item') {
+                event.target.style['border-top'] = '';
+                this.insertBefore(draggedItem, event.target);
+            }
+        });
+
+    </script>
+
+</body>
+
+</html>
