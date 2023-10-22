@@ -168,7 +168,6 @@
         function initMap() {
             var directionsService = new google.maps.DirectionsService();
             var directionsRenderer = new google.maps.DirectionsRenderer();
-            directionsRenderer.setMap(map);
 
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function (position) {
@@ -182,8 +181,22 @@
                         center: center,
                         language: 'zh-TW'
                     });
+
                     directionsRenderer.setMap(map);
 
+                    // 使用內置的圖標來表示用戶的當前位置
+                    var marker = new google.maps.Marker({
+                        position: center,
+                        map: map,
+                        icon: {
+                            path: google.maps.SymbolPath.CIRCLE,
+                            scale: 10, // 調整大小
+                            fillColor: "#0000FF",
+                            fillOpacity: 0.4,
+                            strokeWeight: 0.4
+                        },
+                        title: "您在這裡！"
+                    });
 
                     var service = new google.maps.places.PlacesService(map);
                     service.nearbySearch({
@@ -192,11 +205,14 @@
                         type: ['tourist_attraction'],
                         language: 'zh-TW'
                     }, callback);
+                }, function() {
+                    handleLocationError(true, map.getCenter());
                 });
             } else {
-                console.log("Geolocation is not supported by this browser.");
+                handleLocationError(false, map.getCenter());
             }
-        }
+    }
+    
 
         function callback(results, status) {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
