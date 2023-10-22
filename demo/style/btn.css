@@ -19,6 +19,7 @@
   padding: 12px 27px;
   border-radius: 12px;
   font-size: 1.1rem;
+  margin: 10px;
   color: white;
   background: hsl(0, 0%, 0%);
   will-change: transform;
@@ -28,14 +29,14 @@
     600ms
     cubic-bezier(.3, .7, .4, 1);
 }
-
+/*
 @media (min-width: 768px) {
   .button-82-front {
     font-size: 1.25rem;
     padding: 12px 42px;
   }
 }
-
+*/
 .button-82-pushable:hover {
   filter: brightness(110%);
   -webkit-filter: brightness(110%);
