@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google Maps Navigation</title>
+    <style>
+        #map {
+            height: 400px;
+            width: 70%;
+            float: right;
+        }
+        #itinerary {
+            width: 28%;
+            float: left;
+            overflow-y: auto;
+            height: 400px;
+            padding: 10px;
+            border-right: 1px solid #ccc;
+        }
+        .trip {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<h3>My Google Maps Navigation</h3>
+<div id="controls">
+    出發地點: <input id="start" type="text">
+    到達地點: <input id="end" type="text">
+    <br>
+    <input type="radio" id="departure" name="timeType" value="出發" checked onclick="toggleTimeInput()"> 出發
+    <input type="radio" id="arrival" name="timeType" value="到達" onclick="toggleTimeInput()"> 到達
+    <input type="radio" id="stay" name="timeType" value="停留" onclick="toggleTimeInput()"> 想待
+    <div id="exactTimeDepart">出發時間: <input type="time" id="departureTime" value=""></div>
+    <div id="exactTimeArrival" class="hidden">到達時間: <input type="time" id="arrivalTime" value=""></div>
+    <div id="durationTime" class="hidden">
+        停留時間: <input type="number" id="stayHours" placeholder="小時" min="0"> 
+        分鐘: <input type="number" id="stayMinutes" placeholder="分鐘" min="0">
+    </div>
+    <button onclick="addNavigation()">新增</button>
+</div>
+
+<div id="itinerary">目前行程:</div>
+<div id="map"></div>
+<script>
+    var map;
+    var directionsService;
+    var directionsRenderer;
+    var lastEnd = "";
+    var tripCounter = 0;
+    var startTime = null;
+
+    function toggleTimeInput() {
+        var exactTimeDepartDiv = document.getElementById("exactTimeDepart");
+        var exactTimeArrivalDiv = document.getElementById("exactTimeArrival");
+        var durationTimeDiv = document.getElementById("durationTime");
+
+        if (document.getElementById("departure").checked) {
+            exactTimeDepartDiv.classList.remove("hidden");
+            exactTimeArrivalDiv.classList.add("hidden");
+            durationTimeDiv.classList.add("hidden");
+        } else if (document.getElementById("arrival").checked) {
+            exactTimeDepartDiv.classList.add("hidden");
+            exactTimeArrivalDiv.classList.remove("hidden");
+            durationTimeDiv.classList.add("hidden");
+        } else {
+            exactTimeDepartDiv.classList.add("hidden");
+            exactTimeArrivalDiv.classList.add("hidden");
+            durationTimeDiv.classList.remove("hidden");
+        }
+    }
+
+    function initMap() {
+        directionsService = new google.maps.DirectionsService();
+        directionsRenderer = new google.maps.DirectionsRenderer();
+        
+        var center = {lat: -34.397, lng: 150.644};
+        
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 14,
+            center: center
+        });
+
+        directionsRenderer.setMap(map);
+    }
+
+    function getDirections(start, end, tripDiv, render=true) {
+        var request = {
+            origin: start,
+            destination: end,
+            travelMode: 'DRIVING'
+        };
+
+        directionsService.route(request, function(result, status) {
+            if (status == 'OK') {
+                if (render) {
+                    directionsRenderer.setDirections(result);
+                }
+                var duration = result.routes[0].legs[0].duration.text;
+                
+                // 更新行程的大约需要的时间
+                tripDiv.innerHTML = "第" + tripCounter + "個行程: " + start + " 到 " + end + 
+                                    "<br>出發時間: " + startTime +
+                                    "<br>到達時間: " + calculateArrivalTime(startTime, duration) +
+                                    "<br>需要時間: " + duration +
+                                    " <button onclick='getDirections(\"" + start + "\", \"" + end + "\", this.parentElement, true)'>導航</button>";
+            }
+        });
+    }
+
+    function calculateArrivalTime(startTime, duration) {
+        var parts = startTime.split(":");
+        var hours = parseInt(parts[0]);
+        var minutes = parseInt(parts[1]);
+
+        // 将持续时间拆分为小时和分钟
+        var durationParts = duration.split(" ");
+        var durationHours = parseInt(durationParts[0]);
+        var durationMinutes = parseInt(durationParts[2]);
+
+        // 计算到达时间
+        var arrivalHours = hours + durationHours;
+        var arrivalMinutes = minutes + durationMinutes;
+
+        // 处理小时和分钟的进位
+        if (arrivalMinutes >= 60) {
+            arrivalHours += 1;
+            arrivalMinutes -= 60;
+        }
+
+        // 格式化到达时间
+        var formattedArrivalHours = arrivalHours < 10 ? "0" + arrivalHours : arrivalHours;
+        var formattedArrivalMinutes = arrivalMinutes < 10 ? "0" + arrivalMinutes : arrivalMinutes;
+
+        return formattedArrivalHours + ":" + formattedArrivalMinutes;
+    }
+    function addNavigation() {
+    var start = document.getElementById("start").value;
+    if (!start) start = lastEnd;
+    var end = document.getElementById("end").value;
+
+    if (start && end) {
+        tripCounter++;
+        var tripDiv = document.createElement("div");
+        tripDiv.className = "trip";
+
+        // 获取用户输入的时间
+        var startTime = null;
+        if (document.getElementById("departure").checked) {
+            // 如果是出发选项，将出发时间设置为当前时间
+            var now = new Date();
+            startTime = now.getHours() + ":" + (now.getMinutes() < 10 ? "0" : "") + now.getMinutes();
+        } else if (document.getElementById("arrival").checked) {
+            startTime = document.getElementById("arrivalTime").value;
+        }
+
+        // 计算持续时间
+        var request = {
+            origin: start,
+            destination: end,
+            travelMode: 'DRIVING'
+        };
+
+        directionsService.route(request, function(result, status) {
+            if (status == 'OK') {
+                var duration = result.routes[0].legs[0].duration.text;
+
+                if (startTime) {
+                    var arrivalTime = calculateArrivalTime(startTime, duration);
+                    tripDiv.innerHTML = "第" + tripCounter + "個行程: " + start + " 到 " + end + 
+                                    "<br>出發時間: " + startTime +
+                                    "<br>到達時間: " + calculateArrivalTime(startTime, duration) +
+                                    "<br>需要時間: " + duration +
+                                    " <button onclick='getDirections(\"" + start + "\", \"" + end + "\", this.parentElement, true)'>導航</button>";
+                } else {
+                    tripDiv.innerHTML = "第" + tripCounter + "個行程: " + start + " 到 " + end + 
+                                    "<br>出發時間: " + startTime +
+                                    "<br>到達時間: " + calculateArrivalTime(startTime, duration) +
+                                    "<br>需要時間: " + duration +
+                                    " <button onclick='getDirections(\"" + start + "\", \"" + end + "\", this.parentElement, true)'>導航</button>";
+                }
+                
+                document.getElementById("itinerary").appendChild(tripDiv);
+
+                lastEnd = end;
+                document.getElementById("start").value = lastEnd;
+                document.getElementById("end").value = "";
+            }
+        });
+    }
+}
+
+function calculateArrivalTime(startTime, duration) {
+    if (!startTime || !duration) {
+        return "未知";
+    }
+
+    var startParts = startTime.split(":");
+    var startHours = parseInt(startParts[0]);
+    var startMinutes = parseInt(startParts[1]);
+
+    var durationParts = duration.split(" ");
+    var durationHours = parseInt(durationParts[0]);
+    var durationMinutes = parseInt(durationParts[2]);
+
+    var arrivalHours = startHours + durationHours;
+    var arrivalMinutes = startMinutes + durationMinutes;
+
+    if (arrivalMinutes >= 60) {
+        arrivalHours += 1;
+        arrivalMinutes -= 60;
+    }
+
+    var formattedArrivalHours = arrivalHours < 10 ? "0" + arrivalHours : arrivalHours;
+    var formattedArrivalMinutes = arrivalMinutes < 10 ? "0" + arrivalMinutes : arrivalMinutes;
+
+    return formattedArrivalHours + ":" + formattedArrivalMinutes;
+}
+
+
+    window.onload = initMap;
+
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDo8mQi1COj_EbXDoyK3X1K9umcJXXQEWg&callback=initMap">
+</script>
+
+</body>
+</html>
