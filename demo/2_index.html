@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="font/font.css">
+    <link rel="stylesheet" href="style/body.css">
+    <link rel="stylesheet" href="style/btn.css">
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDo8mQi1COj_EbXDoyK3X1K9umcJXXQEWg&callback=initMap&libraries=places"
+        async defer></script>
+    <title>Three Sections</title>
+    <style>
+        .infomation h1,
+        .infomation h2,
+        .infomation h3 {
+            margin-top: 3px;
+            margin-bottom: 3px;
+        }
+
+        .infomation {
+            padding-right: 5%;
+            text-align: left;
+        }
+
+        .info {
+            width: 100%;
+            background-color: #f6d258;
+            display: flex;
+            text-align: left;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            padding-right: 15px;
+            padding-left: 15px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .goon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding-top: 15px;
+            padding-bottom: 0px;
+            padding-right: 15px;
+            padding-left: 15px;
+            background-color: blue;
+        }
+
+        #map {
+            height: 400px; //或其他你需要的高度
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="side1">
+        <img src="logo.jpg" alt="Logo">
+        <div class="to_all">
+            <a href="2_index.html">回到主頁</a>
+            <a href="4_map.html">查看目前所有行程</a>
+            <a href="4_edit.html">編輯行程</a>
+            <a href="3_info.html">個人設定</a>
+            <a href="#">登出</a>
+        </div>
+    </div>
+    <div class="mid">
+        <div class="content">
+            <!-- 標頭黃色區域 -->
+            <div class="info">
+                <div class="infomation">
+                    <h2>Hello!</h2>
+                    <h1>Alice</h1>
+                    <h3>d0123456@gmail.com</h3>
+                </div>
+                <a href="3_info.html">
+                    <button class="button-82-pushable" role="button">
+                        <span class="button-82-front text">
+                            設定
+                        </span>
+                    </button>
+                </a>
+            </div>
+            <!-- 推薦地點部分 -->
+            <div class="chop">
+
+            </div>
+            <!-- 目前行程部分 -->
+            <div class="goon">
+                <div id="map"></div>
+
+
+                <a href="4_edit.html">
+                    <button class="button-82-pushable" role="button">
+                        <span class="button-82-front text">
+                            新增行程
+                        </span>
+                    </button>
+                </a>
+            </div>
+            <h5>@copy right derder4.0</h5>
+        </div>
+    </div>
+    <div class="side2">
+        這邊還在想放什麼
+        <img src="dain.jpg" alt="Logo">
+    </div>
+    <script>
+        function initMap() {
+            var center = { lat: -34.397, lng: 150.644 };  // 你可以根據需要更改這個位置。
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 15,
+                center: center
+            });
+
+            var service = new google.maps.places.PlacesService(map);
+            service.nearbySearch({
+                location: center,
+                radius: 5000,
+                type: ['tourist_attraction']
+            }, callback);
+        }
+        function callback(results, status) {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                for (var i = 0; i < results.length; i++) {
+                    createMarker(results[i]);
+                }
+            }
+        }
+
+        function createMarker(place) {
+            var marker = new google.maps.Marker({
+                map: map,
+                position: place.geometry.location
+            });
+        }
+
+    </script>
+</body>
+
+</html>
