@@ -125,7 +125,18 @@
 document.addEventListener("DOMContentLoaded", function () {
     const data = JSON.parse(localStorage.getItem('tripData'));
     alert(JSON.stringify(data, null, 2)); // 這會以一個格式化的方式展示數據
-});
+
+    if (data && data.length) {
+        // 從數據中提取所有的 locationName
+        const locationNames = data.map(item => item.locationName).join(', ');
+
+        // 將所有的 locationName 設定到 "地點名稱" 的元素中
+        const locationNameElement = document.querySelector(".label");
+        if (locationNameElement) {
+            locationNameElement.textContent += ": " + locationNames;
+        }
+    }
+    });
     </script>
     
 </body>
