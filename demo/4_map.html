@@ -104,7 +104,7 @@
 
                     </div>
                     <div class="map-section">
-                        <div class="mini-map" style="width: 150px; height: 200px; background-color: #E0E0E0;">地圖</div>
+                        <div id="mini-map" style="width: 150px; height: 200px;"></div>
                     </div>
                 </div>
             </div>
@@ -119,58 +119,84 @@
     <div class="side2">
         <img src="Logo_derder.png" alt="Logo" width="200" height="200">
     </div>
+
     <script>
-document.addEventListener("DOMContentLoaded", function () {
-    const data = JSON.parse(localStorage.getItem('tripData'));
+            var map;
+            var marker; // 定義標記變數
 
-    if (data && data.length) {
-        // 從數據中提取所有的 locationName
-        const locationNames = data.map(item => item.locationName).join(', ');
+            function initMap() {
+                map = new google.maps.Map(document.getElementById("mini-map"), {
+                    center: { lat: 24.1632, lng: 120.6476 },
+                    zoom: 17
+                });
+            }
 
-        // 地點名稱
-        const locationNameElement = document.querySelector(".label");
-        if (locationNameElement) {
-            locationNameElement.textContent = "地點: " + locationNames;
-        }
 
-        // 從數據中提取所有的出發時間
-        const departureTimes = data.map(item => item.time).filter(time => time);
+            document.addEventListener("DOMContentLoaded", function () {
 
-        // 對出發時間進行排序
-        departureTimes.sort();
+                const data = JSON.parse(localStorage.getItem('tripData'));
 
-        // 取第一個時間作為最早的時間
-        const earliestTime = departureTimes[0];
-        const latestTime = departureTimes[departureTimes.length - 1];
+                if (data && data.length) {
+                    
+                    // 從數據中提取所有的 locationName
+                    const locationNames = data.map(item => item.locationName).join(', ');
 
-        // 出發時間
-        const departureTimeElement = document.createElement("div");
-        departureTimeElement.className = "label";
-        departureTimeElement.textContent = "出發: " + earliestTime;
-        document.getElementById("timeContainer").appendChild(departureTimeElement);
+                    // 地點名稱
+                    const locationNameElement = document.querySelector(".label");
+                    if (locationNameElement) {
+                        locationNameElement.textContent = "地點: " + locationNames;
+                    }
+                    
+                    // 為每個地點在地圖上添加標記
+                    data.forEach(locationData => {
+                        new google.maps.Marker({
+                            position: { lat: locationData.lat, lng: locationData.lng },
+                            map: map,
+                            title: locationData.locationName
+                        });
+                    });
 
-        // 結束時間
-        const endTimeElement = document.createElement("div");
-        endTimeElement.className = "label";
-        endTimeElement.textContent = "結束: " + latestTime;
-        document.getElementById("timeContainer").appendChild(endTimeElement);
+                    // 從數據中提取所有的出發時間
+                    const departureTimes = data.map(item => item.time).filter(time => time);
 
-        // 計算行程時間
-        const startDate = new Date(`1970-01-01 ${earliestTime}`);
-        const endDate = new Date(`1970-01-01 ${latestTime}`);
-        const timeDiff = endDate - startDate;
-        const hoursDiff = Math.floor(timeDiff / 3600000);
-        const minutesDiff = Math.floor((timeDiff % 3600000) / 60000);
+                    // 對出發時間進行排序
+                    departureTimes.sort();
 
-        // 行程時間
-        const tripDurationElement = document.createElement("div");
-        tripDurationElement.className = "label";
-        tripDurationElement.textContent = `行程時間: ${hoursDiff}小時 ${minutesDiff}分鐘`;
-        document.getElementById("timeContainer").appendChild(tripDurationElement);
-    }
-});
+                    // 取第一個時間作為最早的時間
+                    const earliestTime = departureTimes[0];
+                    const latestTime = departureTimes[departureTimes.length - 1];
+
+                    // 出發時間
+                    const departureTimeElement = document.createElement("div");
+                    departureTimeElement.className = "label";
+                    departureTimeElement.textContent = "出發: " + earliestTime;
+                    document.getElementById("timeContainer").appendChild(departureTimeElement);
+
+                    // 結束時間
+                    const endTimeElement = document.createElement("div");
+                    endTimeElement.className = "label";
+                    endTimeElement.textContent = "結束: " + latestTime;
+                    document.getElementById("timeContainer").appendChild(endTimeElement);
+
+                    // 計算行程時間
+                    const startDate = new Date(`1970-01-01 ${earliestTime}`);
+                    const endDate = new Date(`1970-01-01 ${latestTime}`);
+                    const timeDiff = endDate - startDate;
+                    const hoursDiff = Math.floor(timeDiff / 3600000);
+                    const minutesDiff = Math.floor((timeDiff % 3600000) / 60000);
+
+                    // 行程時間
+                    const tripDurationElement = document.createElement("div");
+                    tripDurationElement.className = "label";
+                    tripDurationElement.textContent = `行程時間: ${hoursDiff}小時 ${minutesDiff}分鐘`;
+                    document.getElementById("timeContainer").appendChild(tripDurationElement);
+                }
+                
+        });
 </script>
     
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDo8mQi1COj_EbXDoyK3X1K9umcJXXQEWg&libraries=places&callback=initMap" async defer></script>
+
 </body>
 
 </html>
