@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="font/font.css">
+    <link rel="stylesheet" href="style/body.css">
+    <link rel="stylesheet" href="style/btn.css">
+
+    <title>個人設定</title>
+    <style>
+        .list-item {
+            border: 2px solid white;
+            border-radius: 10px;
+            width: 400px;
+            height: 250px;
+            margin: 10px 0;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+        }
+
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .map-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .rounded-container {
+            display: flex;
+            border-radius: 20px;
+            overflow: hidden;
+            width: 300px;
+        }
+
+        .segment {
+            flex: 1;
+            text-align: center;
+            padding: 10px 0;
+            color: #000000;
+            cursor: pointer;
+        }
+
+        .segment1 {
+            background-color: #f6d258;
+            ;
+        }
+
+        .segment2 {
+            background-color: #f6d258;
+            ;
+        }
+
+        .segment3 {
+            background-color: #f6d258;
+            ;
+        }
+
+        input[type="radio"]:checked+.segment1 {
+            background-color: #000000;
+            ;
+            color: #E0E0E0;
+        }
+
+        input[type="radio"]:checked+.segment2 {
+            background-color: #000000;
+            ;
+            color: #E0E0E0;
+        }
+
+        input[type="radio"]:checked+.segment3 {
+            background-color: #000000;
+            ;
+            color: #E0E0E0;
+        }
+
+        input[type="radio"] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="side1">
+        <img src="logo.jpg" alt="Logo">
+        <div class="to_all">
+            <a href="2_index.html">回到主頁</a>
+            <a href="4_map.html">查看目前所有行程</a>
+            <a href="4_edit.html">編輯行程</a>
+            <a href="3_info.html">個人設定</a>
+            <a href="#">登出</a>
+        </div>
+    </div>
+    <div class="mid">
+        <div class="content">
+            <div id="listContainer">
+                <div class="list-item">
+                    <div class="input-section">
+                        <input type="text" placeholder="地點名稱">
+                        <select>
+                            <option value="模式1">模式1</option>
+                            <option value="模式2">模式2</option>
+                            <option value="模式3">模式3</option>
+                        </select>
+                        <div class="rounded-container" style="display: none;">
+                            <input type="radio" id="mode1" name="mode" value="mode1">
+                            <label for="mode1" class="segment segment1">想待</label>
+
+                            <input type="radio" id="mode2" name="mode" value="mode2">
+                            <label for="mode2" class="segment segment2">到達</label>
+
+                            <input type="radio" id="mode3" name="mode" value="mode3">
+                            <label for="mode3" class="segment segment3">離開</label>
+                        </div>
+
+                    </div>
+                    <div class="map-section">
+                        <div class="mini-map" style="width: 100px; height: 60px; background-color: #E0E0E0;">地圖</div>
+                        <div class="btn-group">
+                            <button onclick="moveItemUp(this)">往上移</button>
+                            <button onclick="moveItemDown(this)">往下移</button>
+                            <button onclick="deleteItem(this)">刪除</button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <button class="button-82-pushable" role="button" onclick="addItem()">
+                <span class="button-82-front text">
+                    新增
+                </span>
+            </button>
+
+            <h5>@copy right derder4.0</h5>
+        </div>
+    </div>
+    <div class="side2">
+        這邊還在想放什麼
+        <img src="dain.jpg" alt="Logo">
+    </div>
+    <script>
+        let count = 1;
+        document.getElementById("listContainer").addEventListener("click", function (e) {
+            if (e.target && e.target.nodeName == "BUTTON") {
+                const btn = e.target;
+
+                if (btn.textContent === "刪除") {
+                    deleteItem(btn);
+                } else if (btn.textContent === "往上移") {
+                    moveItemUp(btn);
+                } else if (btn.textContent === "往下移") {
+                    moveItemDown(btn);
+                }
+            }
+        });
+
+        function addItem() {
+            if (count < 5) {
+                const newItem = document.createElement("div");
+                newItem.classList.add("list-item");
+                newItem.innerHTML = `
+        <div class="input-section">
+            <input type="text" placeholder="地點名稱">
+            <select>
+                <option value="模式1">模式1</option>
+                <option value="模式2">模式2</option>
+                <option value="模式3">模式3</option>
+            </select>
+        </div>
+        <div class="map-section">
+            <div class="mini-map" style="width: 100px; height: 60px; background-color: #E0E0E0;">地圖</div>
+            <div class="btn-group">
+                <button>往上移</button>
+                <button>往下移</button>
+                <button>刪除</button>
+            </div>
+        </div>`;
+                document.getElementById("listContainer").appendChild(newItem);
+                document.querySelector('.rounded-container').style.display = 'block';
+
+                count++;
+            } else {
+                alert("最多只能新增五個項目");
+            }
+        }
+        function deleteItem(btn) {
+            const listContainer = document.getElementById("listContainer");
+            const items = listContainer.querySelectorAll('.list-item');
+
+            if (items.length <= 1) {
+                alert("至少需要保留一個項目");
+            } else {
+                btn.closest('.list-item').remove();
+                count--;
+            }
+        }
+
+        function moveItemUp(btn) {
+            const item = btn.closest('.list-item');
+            const prevItem = item.previousElementSibling;
+            if (prevItem) {
+                item.parentNode.insertBefore(item, prevItem);
+            }
+        }
+
+        function moveItemDown(btn) {
+            const item = btn.closest('.list-item');
+            const nextItem = item.nextElementSibling;
+            if (nextItem) {
+                item.parentNode.insertBefore(nextItem, item);
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style/body.css">
     <link rel="stylesheet" href="style/btn.css">
     <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDo8mQi1COj_EbXDoyK3X1K9umcJXXQEWg&callback=initMap&libraries=places"
+        src="https://maps.googleapis.com/maps/api/js?key=*****api放在這邊*****&callback=initMap&libraries=places"
         async defer></script>
 
     <title>Three Sections</title>
@@ -70,6 +70,8 @@
             overflow-x: auto;
             gap: 10px;
             padding: 15px 0;
+            overflow-x: hidden;
+            
         }
 
         /* 每個景點的小格子 */
@@ -161,8 +163,8 @@
 
     <script>
         var map;
-        var directionsService = new google.maps.DirectionsService(); // Move to global scope
-        var directionsRenderer = new google.maps.DirectionsRenderer(); // Move to global scope
+        var directionsService; // Move to global scope
+        var directionsRendere; // Move to global scope
 
 
         function initMap() {
@@ -205,14 +207,14 @@
                         type: ['tourist_attraction'],
                         language: 'zh-TW'
                     }, callback);
-                }, function() {
+                }, function () {
                     handleLocationError(true, map.getCenter());
                 });
             } else {
                 handleLocationError(false, map.getCenter());
             }
-    }
-    
+        }
+
 
         function callback(results, status) {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
@@ -299,6 +301,35 @@
                 position: place.geometry.location
             });
         }
+        document.addEventListener("DOMContentLoaded", function () {
+            var isDown = false;
+            var startX;
+            var scrollLeft;
+
+            var chopElement = document.querySelector('.chop');
+
+            chopElement.addEventListener('mousedown', (e) => {
+                isDown = true;
+                startX = e.pageX - chopElement.offsetLeft;
+                scrollLeft = chopElement.scrollLeft;
+            });
+
+            chopElement.addEventListener('mouseleave', () => {
+                isDown = false;
+            });
+
+            chopElement.addEventListener('mouseup', () => {
+                isDown = false;
+            });
+
+            chopElement.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - chopElement.offsetLeft;
+                const walk = (x - startX) * 2; // 2 is the scroll speed
+                chopElement.scrollLeft = scrollLeft - walk;
+            });
+        });
 
     </script>
 </body>
