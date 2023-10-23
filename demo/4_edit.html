@@ -278,7 +278,6 @@
     </div>
     <div class="side2">  
         <img src="Logo_derder.png" alt="Logo" width="200" height="200">
-    </div>
     <script>
         let count = 1;
         document.getElementById("listContainer").addEventListener("click", function (e) {
@@ -319,6 +318,7 @@
                     <input type="radio" id="mode3-${count}" name="mode-${count}" value="mode3">
                     <label for="mode3-${count}" class="segment segment3">離開</label>
                 </div>
+                
                 <div id="timeContainer-${count}">  <!-- 移動這部分到 rounded-container 的後面 -->
                     <input type="time" class="shadow-input" id="timeInput-${count}" style="display: none;">
                     <div id="durationInput-${count}" style="display: none;">
