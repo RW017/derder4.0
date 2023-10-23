@@ -300,6 +300,7 @@
             if (count < 5) {
                 const newItem = document.createElement("div");
                 newItem.classList.add("list-item");
+                const newCount = ++count;
                 newItem.innerHTML = `
                 <div class="input-section">
                         <input type="text" placeholder="地點名稱" class="shadow-input">
@@ -356,7 +357,6 @@
                 });
 
                 document.getElementById("listContainer").appendChild(newItem);
-                count++;
             }
         }
         
@@ -383,25 +383,40 @@
 
             // submit
             function handleSubmitData() {
-                 // 收集數據
-                let data = [];
-                document.querySelectorAll('.list-item').forEach(item => {
-                    const place = item.querySelector('input[type="text"]').value;
-                    const mode = item.querySelector('.custom-dropdown').value;
-                    const time = item.querySelector('#timeInput').value;
-                    const hours = item.querySelector('#hoursInput').value;
-                    const minutes = item.querySelector('#minutesInput').value;
-                    data.push({place, mode, time, hours, minutes});
-                });
-                
-                // 使用localStorage存儲數據
-                localStorage.setItem('tripData', JSON.stringify(data));
+                const itineraryData = [];
+                const items = document.querySelectorAll('.list-item');
 
-                // 跳轉到4_map.html
+                items.forEach(item => {
+                    const locationName = item.querySelector('.shadow-input').value;
+                    const transportMode = item.querySelector('.custom-dropdown').value;
+                    const mode = item.querySelector('input[name="mode"]:checked').value;
+                    let time, hours, minutes;
+
+                    if (mode === "mode1") {
+                        hours = item.querySelector('#hoursInput').value;
+                        minutes = item.querySelector('#minutesInput').value;
+                    } else {
+                        time = item.querySelector('#timeInput').value;
+                    }
+
+                    itineraryData.push({
+                        locationName,
+                        transportMode,
+                        mode,
+                        time,
+                        hours,
+                        minutes
+                    });
+                });
+
+                // 將數據保存至localStorage
+                localStorage.setItem('tripData', JSON.stringify(itineraryData));
+
+                // 跳轉至4_map.html
                 window.location.href = "4_map.html";
             }
+                    
 
-            document.querySelector('button.button-82-pushable span:contains("送出資料")').parentNode.addEventListener("click", handleSubmitData);
 
             function deleteItem(btn) {
                 const listContainer = document.getElementById("listContainer");
@@ -417,9 +432,8 @@
 
             function moveItemUp(btn) {
                 const item = btn.closest('.list-item');
-                const prevItem = item.previousElementSibling;
-                if (prevItem) {
-                    item.parentNode.insertBefore(item, prevItem);
+                if (item && item.previousElementSibling) {
+                    item.parentNode.insertBefore(item, item.previousElementSibling);
                 }
             }
 
