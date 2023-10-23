@@ -1,98 +1,143 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="font/font.css">
-    <title>旅程奏樂</title>
+    <link rel="stylesheet" href="style/body.css">
+    <link rel="stylesheet" href="style/btn.css">
+
+    <title>個人設定</title>
     <style>
-        body {
-            font-family: 'FakePearl-Regular';
-                        background-color: #e7b630;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        h1 {
-            margin-bottom: 20px;
-        }
-
-        .status-bar {
-            background-color: black;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 50px;
-            margin-bottom: 10px;
-            width: 250px;
-            text-align: center;
-        }
-
-        .journey-detail {
-            background-color: white;
-            padding: 10px 20px;
-            border-radius: 50px;
-            margin-bottom: 20px;
-            width: 250px;
-            text-align: center;
-        }
-
-        .map {
-            width: 350px;
-            height: 350px;
-            margin-bottom: 20px;
-            border-radius: 15px;
-            overflow: hidden;
-        }
-
-        .vertical-list {
-            overflow-y: auto;
-            width: 270px;
-            height: 200px;
-            margin-bottom: 20px;
-        }
-
         .list-item {
-            background-color: white;
-            padding: 10px;
+            border: 2px solid rgb(175, 175, 175);
+            border-radius: 10px;
+            width: 400px;
+            height: 250px;
             margin: 10px 0;
-            border-radius: 20px;
-            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
         }
 
-        .add-journey-button {
-            background-color: black;
-            color: white;
-            padding: 10px 20px;
+        .label {
+            background-color: #fff;
+            /* 边框 */
             border-radius: 50px;
-            cursor: pointer;
-            border: none;
+            /* 圆弧形状 */
+            width: 180px;
+            margin-top: 8px;
+            padding: 5px 20px;
+            /* 内部间距，根据需要调整 */
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+            /* 阴影效果 */
+            display: inline-block;
+            /* 内联块元素，以便在一行显示 */
+            font-weight: bold;
+            /* 字体加粗，根据需要调整 */
+            font-size: 18px;
+            /* 字体大小，根据需要调整 */
+        }
+
+        .location-label {
+            width: 100%;
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .time-label {
+            width: 100%;
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        .shadow-input {
+            background-color: rgba(211, 211, 211, 0);
+            /* 灰色背景 */
+            border: 1px solid #D3D3D3;
+            /* 邊框顏色 */
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            /* 較為明顯的陰影效果 */
+            /* 移除邊框 */
+            padding: 8px 12px;
+            /* 內部間距 */
+        }
+        .input-section h3{
+            margin: 0;
         }
     </style>
 </head>
 
 <body>
-    <h1>旅程奏樂</h1>
-    <div class="status-bar">進行中</div>
-    <div class="journey-detail">18.00離開逢甲大學往公車站走</div>
-
-    <div class="map">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.7986189154967!2d120.64395077534938!3d24.178794378380495!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34691623a7988aa7%3A0x73dd146c41c3035a!2z6YCi55Sy5aSn5a24!5e0!3m2!1szh-TW!2stw!4v1695633133296!5m2!1szh-TW!2stw" width="350px" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <div class="side1">
+        <img src="Logo_derder.png" alt="Logo" width="100" height="100">
+        <div class="to_all">
+            <a href="2_index.html">回到主頁</a>
+            <a href="4_map.html">查看目前所有行程</a>
+            <a href="4_edit.html">編輯行程</a>
+            <!--<a href="3_info.html">個人設定</a>-->
+            <a href="#">登出</a>
+        </div>
     </div>
+    <div class="mid">
+        <div class="content">
+            <h1>行程預覽</h1>
 
-    <div class="vertical-list">
-        <div class="list-item">18.10搭160至高鐵站</div>
-        <div class="list-item">18.10搭160至高鐵站</div>
-        <div class="list-item">18.10搭160至高鐵站</div>
-        <div class="list-item">18.10搭160至高鐵站</div>
-        <div class="list-item">18.10搭160至高鐵站</div>
+            <div id="listContainer">
+                <div class="list-item">
+                    <div class="input-section">
+                        <h3>行程</h3>
+                        <div class="label">地點名稱</div>
+                        <!-- 圆弧来显示地点名称 -->
+
+                        <div id="timeContainer">
+                            <div class="label">出發時間</div>
+                            <div class="label">到達時間</div>
+                            <div class="label">行程時間</div>
+                        </div>
+
+                    </div>
+                    <div class="map-section">
+                        <div class="mini-map" style="width: 150px; height: 200px; background-color: #E0E0E0;">地圖</div>
+                    </div>
+                </div>
+            </div>
+            <button class="button-82-pushable" role="button">
+                <span class="button-82-front text">
+                    確定
+                </span>
+            </button>
+            <h5>@copy right derder4.0</h5>
+        </div>
     </div>
-
-    <button class="add-journey-button">新增行程</button>
+    <div class="side2">
+        <img src="Logo_derder.png" alt="Logo" width="200" height="200">
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // 從localStorage取出數據
+            const data = JSON.parse(localStorage.getItem('tripData') || '[]');
+            
+            // 確認是否收到資料
+            if(data.length > 0) {
+                alert("已收到以下資料: \n" + JSON.stringify(data, null, 2));
+            } else {
+                alert("尚未收到任何資料。");
+            }
+    
+            // 使用數據渲染到頁面上...
+            // 例如：你可以遍歷這些數據，然後將它們添加到某個容器中以供展示。
+        });
+    </script>
+    
 </body>
 
 </html>

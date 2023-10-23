@@ -10,8 +10,33 @@
 
     <title>個人設定</title>
     <style>
+        .listContainer {
+            max-height: 300px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .listContainer:hover {
+            overflow-y: auto;
+            /* 當滑鼠移至此容器上時，允許垂直滾動 */
+        }
+
+        /* 針對webkit瀏覽器，如Chrome和Safari，使滾動條變得細緻且半透明 */
+        .listContainer::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .listContainer::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+        }
+
+        .listContainer::-webkit-scrollbar-track {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
         .list-item {
-            border: 2px solid white;
+            border: 2px solid rgb(175, 175, 175);
             border-radius: 10px;
             width: 400px;
             height: 250px;
@@ -45,7 +70,7 @@
             display: flex;
             border-radius: 20px;
             overflow: hidden;
-            width: 300px;
+            width: 200px;
         }
 
         .segment {
@@ -71,53 +96,132 @@
             ;
         }
 
-        input[type="radio"]:checked+.segment1 {
-            background-color: #000000;
-            ;
-            color: #E0E0E0;
+
+        .btn-group .button-82-pushable .button-82-front {
+            padding: 10px;
+            margin: 0px;
+            font-size: 0.8rem;
         }
 
-        input[type="radio"]:checked+.segment2 {
-            background-color: #000000;
-            ;
-            color: #E0E0E0;
+        .shadow-input {
+            background-color: rgba(211, 211, 211, 0);
+            /* 灰色背景 */
+            border: 1px solid #D3D3D3;
+            /* 邊框顏色 */
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            /* 較為明顯的陰
+            /* 陰影效果 */
+            /* 移除邊框 */
+            padding: 8px 12px;
+            /* 內部間距 */
         }
 
+        .shadow-input:focus {
+            outline: none;
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+            /* 焦點時的陰影效果 */
+        }
+
+        /* 定義下拉選單的基本樣式 */
+        select.custom-dropdown {
+            font-size: 16px;
+            /* 字體大小 */
+            border: 1px solid #D3D3D3;
+            /* 邊框顏色 */
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            /* 圓角 */
+            width: 200px;
+            /* 寬度 */
+            padding: 8px 12px;
+            /* 內部間距 */
+            appearance: none;
+            /* 移除預設的外觀 */
+            -webkit-appearance: none;
+            /* 移除預設的外觀 (Chrome) */
+            -moz-appearance: none;
+            /* 移除預設的外觀 (Firefox) */
+            background-color: #FFFFFF;
+            /* 背景色 */
+            cursor: pointer;
+            /* 滑鼠樣式 */
+        }
+
+        /* 為下拉選單加入背景箭頭圖示 */
+        select.custom-dropdown::-ms-expand {
+            display: none;
+            /* 隱藏預設的箭頭 (IE) */
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 5px;
+            /* Separation between the two rows */
+        }
+
+        select.custom-dropdown::after {
+            content: '\25BC';
+            /* 添加箭頭 */
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+        }
+
+        input[type="radio"]:checked+.segment1,
+        input[type="radio"]:checked+.segment2,
         input[type="radio"]:checked+.segment3 {
             background-color: #000000;
-            ;
             color: #E0E0E0;
         }
 
         input[type="radio"] {
             display: none;
         }
+
+        /* 定義下拉選單的焦點樣式 */
+        select.custom-dropdown:focus {
+            outline: none;
+            /* 移除焦點時的邊框 */
+            border-color: #007BFF;
+            /* 焦點時的邊框顏色 */
+        }
+
+        /* 定義選項的樣式 */
+        select.custom-dropdown option {
+            padding: 8px 12px;
+            /* 內部間距 */
+        }
     </style>
 </head>
 
 <body>
     <div class="side1">
-        <img src="Logo_derder.png" alt="Logo" width="100" height="100">
+        <img src="logo.jpg" alt="Logo">
         <div class="to_all">
             <a href="2_index.html">回到主頁</a>
             <a href="4_map.html">查看目前所有行程</a>
             <a href="4_edit.html">編輯行程</a>
-            <!--<a href="3_info.html">個人設定</a>-->
+            <a href="3_info.html">個人設定</a>
             <a href="#">登出</a>
         </div>
     </div>
     <div class="mid">
         <div class="content">
+            <h1>規劃行程</h1>
+
             <div id="listContainer">
                 <div class="list-item">
                     <div class="input-section">
-                        <input type="text" placeholder="地點名稱">
-                        <select>
-                            <option value="模式1">模式1</option>
-                            <option value="模式2">模式2</option>
-                            <option value="模式3">模式3</option>
+                        <input type="text" placeholder="地點名稱" class="shadow-input">
+                        <select class="custom-dropdown">
+                            <option value="模式1">機車</option>
+                            <option value="模式2">汽車</option>
+                            <option value="模式3">走路</option>
                         </select>
-                        <div class="rounded-container" style="display: none;">
+                        <div class="rounded-container">
                             <input type="radio" id="mode1" name="mode" value="mode1">
                             <label for="mode1" class="segment segment1">想待</label>
 
@@ -127,31 +231,54 @@
                             <input type="radio" id="mode3" name="mode" value="mode3">
                             <label for="mode3" class="segment segment3">離開</label>
                         </div>
-
-                    </div>
-                    <div class="map-section">
-                        <div class="mini-map" style="width: 100px; height: 60px; background-color: #E0E0E0;">地圖</div>
-                        <div class="btn-group">
-                            <button onclick="moveItemUp(this)">往上移</button>
-                            <button onclick="moveItemDown(this)">往下移</button>
-                            <button onclick="deleteItem(this)">刪除</button>
+                        <div id="timeContainer">
+                            <input type="time" class="shadow-input" id="timeInput" style="display: none;">
+                            <div id="durationInput" style="display: none;">
+                                <input type="number" placeholder="Hours" id="hoursInput" min="0" max="24"
+                                    class="shadow-input">
+                                <input type="number" placeholder="Minutes" id="minutesInput" min="0" max="59"
+                                    class="shadow-input">
+                            </div>
                         </div>
 
                     </div>
+                    <div class="map-section">
+                        <div class="mini-map" style="width: 135px; height: 120px; background-color: #E0E0E0;">地圖</div>
 
+                        <div class="btn-group">
+                            <div class="btn-row">
+                                <button class="button-82-pushable" onclick="moveItemUp(this)">
+                                    <span class="button-82-front text">往上移</span>
+                                </button>
+                                <button class="button-82-pushable" onclick="moveItemDown(this)">
+                                    <span class="button-82-front text">往下移</span>
+                                </button>
+                            </div>
+                            <button class="button-82-pushable" onclick="deleteItem(this)">
+                                <span class="button-82-front text">刪除</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
+
             </div>
             <button class="button-82-pushable" role="button" onclick="addItem()">
                 <span class="button-82-front text">
                     新增
                 </span>
             </button>
-
+            <button class="button-82-pushable" role="button" onclick="handleSubmitData()">
+                <span class="button-82-front text">
+                    送出資料
+                </span>
+            </button>
+            
             <h5>@copy right derder4.0</h5>
         </div>
     </div>
     <div class="side2">
-        <img src="Logo_derder.png" alt="Logo" width="200" height="200">
+        這邊還在想放什麼
+        <img src="dain.jpg" alt="Logo">
     </div>
     <script>
         let count = 1;
@@ -174,57 +301,119 @@
                 const newItem = document.createElement("div");
                 newItem.classList.add("list-item");
                 newItem.innerHTML = `
-        <div class="input-section">
-            <input type="text" placeholder="地點名稱">
-            <select>
-                <option value="模式1">模式1</option>
-                <option value="模式2">模式2</option>
-                <option value="模式3">模式3</option>
-            </select>
-        </div>
-        <div class="map-section">
-            <div class="mini-map" style="width: 100px; height: 60px; background-color: #E0E0E0;">地圖</div>
-            <div class="btn-group">
-                <button>往上移</button>
-                <button>往下移</button>
-                <button>刪除</button>
+                <div class="input-section">
+                        <input type="text" placeholder="地點名稱" class="shadow-input">
+                        <select class="custom-dropdown">
+                            <option value="模式1">機車</option>
+                            <option value="模式2">汽車</option>
+                            <option value="模式3">走路</option>
+                        </select>
+                        <div class="rounded-container">
+                                    <input type="radio" id="mode1-${count}" name="mode-${count}" value="mode1">
+        <label for="mode1-${count}" class="segment segment1">想待</label>
+
+                            <input type="radio" id="mode2-${count}" name="mode-${count}" value="mode2">
+                            <label for="mode2-${count}" class="segment segment2">到達</label>
+
+                            <input type="radio" id="mode3-${count}" name="mode-${count}" value="mode3">
+                            <label for="mode3-${count}" class="segment segment3">離開</label>
+                        </div>
             </div>
-        </div>`;
+        
+       <div id="timeContainer">
+                            <input type="time" class="shadow-input" id="timeInput" style="display: none;">
+                            <div id="durationInput" style="display: none;">
+                                <input type="number" placeholder="Hours" id="hoursInput" min="0" max="24"
+                                    class="shadow-input">
+                                <input type="number" placeholder="Minutes" id="minutesInput" min="0" max="59"
+                                    class="shadow-input">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="map-section">
+                        <div class="mini-map" style="width: 135px; height: 120px; background-color: #E0E0E0;">地圖</div>
+
+                        <div class="btn-group">
+                            <div class="btn-row">
+                                <button class="button-82-pushable" onclick="moveItemUp(this)">
+                                    <span class="button-82-front text">往上移</span>
+                                </button>
+                                <button class="button-82-pushable" onclick="moveItemDown(this)">
+                                    <span class="button-82-front text">往下移</span>
+                                </button>
+                            </div>
+                            <button class="button-82-pushable" onclick="deleteItem(this)">
+                                <span class="button-82-front text">刪除</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+        `;
+                const newRadioButtons = newItem.querySelectorAll('input[type="radio"]');
+                newRadioButtons.forEach(radio => {
+                    radio.addEventListener('change', handleRadioButtonChange);
+                });
+
                 document.getElementById("listContainer").appendChild(newItem);
-                document.querySelector('.rounded-container').style.display = 'block';
-
                 count++;
-            } else {
-                alert("最多只能新增五個項目");
             }
         }
-        function deleteItem(btn) {
-            const listContainer = document.getElementById("listContainer");
-            const items = listContainer.querySelectorAll('.list-item');
+        
+            function handleRadioButtonChange() {
+                const timeInput = this.closest('.input-section').querySelector('#timeInput');
+                const durationInput = this.closest('.input-section').querySelector('#durationInput');
 
-            if (items.length <= 1) {
-                alert("至少需要保留一個項目");
-            } else {
-                btn.closest('.list-item').remove();
-                count--;
+                if (this.value === 'mode1') { // For "想待"
+                    timeInput.style.display = 'none';
+                    durationInput.style.display = 'flex';
+                } else if (this.value === 'mode2' || this.value === 'mode3') { // For "到達" and "離開"
+                    timeInput.style.display = 'block';
+                    durationInput.style.display = 'none';
+                }
             }
-        }
 
-        function moveItemUp(btn) {
-            const item = btn.closest('.list-item');
-            const prevItem = item.previousElementSibling;
-            if (prevItem) {
-                item.parentNode.insertBefore(item, prevItem);
-            }
-        }
+            // 在 DOMContentLoaded 事件中，為已存在的 radio buttons 添加事件監聽器
+            document.addEventListener("DOMContentLoaded", function () {
+                const radioButtons = document.querySelectorAll('input[type="radio"]');
+                radioButtons.forEach(radio => {
+                    radio.addEventListener('change', handleRadioButtonChange);
+                });
+            });
 
-        function moveItemDown(btn) {
-            const item = btn.closest('.list-item');
-            const nextItem = item.nextElementSibling;
-            if (nextItem) {
-                item.parentNode.insertBefore(nextItem, item);
+            // submit
+            function handleSubmitData() {
+                 // 收集數據
+                let data = [];
+                document.querySelectorAll('.list-item').forEach(item => {
+                    const place = item.querySelector('input[type="text"]').value;
+                    const mode = item.querySelector('.custom-dropdown').value;
+                    const time = item.querySelector('#timeInput').value;
+                    const hours = item.querySelector('#hoursInput').value;
+                    const minutes = item.querySelector('#minutesInput').value;
+                    data.push({place, mode, time, hours, minutes});
+                });
+                
+                // 使用localStorage存儲數據
+                localStorage.setItem('tripData', JSON.stringify(data));
+
+                // 跳轉到4_map.html
+                window.location.href = "4_map.html";
             }
-        }
+
+            document.querySelector('button.button-82-pushable span:contains("送出資料")').parentNode.addEventListener("click", handleSubmitData);
+
+            function deleteItem(btn) {
+                const listContainer = document.getElementById("listContainer");
+                const items = listContainer.querySelectorAll('.list-item');
+
+                if (items.length <= 1) {
+                    alert("至少需要保留一個項目");
+                } else {
+                    btn.closest('.list-item').remove();
+                    count--;
+                }
+            }
 
     </script>   
 
