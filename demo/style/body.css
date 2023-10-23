@@ -6,6 +6,19 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #f7f7f7;  /* 更淺的背景顏色提供對比 */
+    color: #333333;  /* 黑色文字 */
+
+}
+
+a {
+    text-decoration: none;
+    color: #007BFF;  /* 使用主要顏色 */
+    transition: color 0.3s;  /* 平滑過渡 */
+}
+
+a:hover {
+    color: #0056b3;  /* 當滑鼠移到連結上時的顏色 */
 }
 
 html {
@@ -21,12 +34,13 @@ html {
 }
 
 .to_all a {
+    color: #777777;  /* 灰色文字 */
     writing-mode: vertical-lr;
     text-orientation: upright;
 }
-
 .side2,
 .side1 {
+    background-color: #fff;  /* 增加白色背景提供對比 */
     height: 100vh;
     flex: 1;
     display: flex;
@@ -45,7 +59,6 @@ html {
 }
 
 .mid {
-    background-color: aquamarine;
     overflow-x: hidden;
     height: 100vh;
     width: 350px;
@@ -53,7 +66,6 @@ html {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* Adjusted this line */
     overflow-y: scroll;
     position: relative;
     min-height: 0;
@@ -71,26 +83,28 @@ html {
 .content * {
     box-sizing: border-box;
     max-width: 100%;
-    overflow: visible;
+    overflow:visible;
 }
 
 .content {
+    padding: 20px;  /* 增加內部間距 */
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-/* Media queries */
+/* RWD changes */
 @media (max-width: 830px) {
-
-    .side1,
-    .side2 {
-        display: none;
+    .to_all {
+        flex-direction: column;
+        align-items: center;
     }
-}
-
-@media (max-width: 390px) {
+    
+    .to_all a {
+        writing-mode: horizontal-tb;
+        text-orientation: mixed;
+    }
 
     .side1,
     .side2 {
@@ -98,6 +112,6 @@ html {
     }
 
     .mid {
-        flex: 1;
+        width: 100%;
     }
 }
