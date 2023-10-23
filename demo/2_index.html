@@ -176,10 +176,18 @@
                     };
 
                     // Place a marker at the current position
-                    var marker = new google.maps.Marker({
+                   // 使用內置的圖標來表示用戶的當前位置
+                   var marker = new google.maps.Marker({
                         position: pos,
                         map: map,
-                        title: 'My location'
+                        icon: {
+                            path: google.maps.SymbolPath.CIRCLE,
+                            scale: 10, // 調整大小
+                            fillColor: "#0000FF",
+                            fillOpacity: 0.4,
+                            strokeWeight: 0.4
+                        },
+                        title: "您在這裡！"
                     });
 
                     // Center the map at the current position
