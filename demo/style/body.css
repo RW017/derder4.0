@@ -71,7 +71,7 @@ html {
 .content * {
     box-sizing: border-box;
     max-width: 100%;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .content {
