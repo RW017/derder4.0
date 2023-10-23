@@ -122,7 +122,22 @@
         <img src="Logo_derder.png" alt="Logo" width="200" height="200">
     </div>
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // 從localStorage取出數據
+            const data = JSON.parse(localStorage.getItem('tripData') || '[]');
+            
+            // 確認是否收到資料
+            if(data.length > 0) {
+                alert("已收到以下資料: \n" + JSON.stringify(data, null, 2));
+            } else {
+                alert("尚未收到任何資料。");
+            }
+    
+            // 使用數據渲染到頁面上...
+            // 例如：你可以遍歷這些數據，然後將它們添加到某個容器中以供展示。
+        });
     </script>
+    
 </body>
 
 </html>
