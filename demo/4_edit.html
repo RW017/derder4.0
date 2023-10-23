@@ -10,8 +10,33 @@
 
     <title>個人設定</title>
     <style>
+        .listContainer {
+            max-height: 300px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .listContainer:hover {
+            overflow-y: auto;
+            /* 當滑鼠移至此容器上時，允許垂直滾動 */
+        }
+
+        /* 針對webkit瀏覽器，如Chrome和Safari，使滾動條變得細緻且半透明 */
+        .listContainer::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .listContainer::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+        }
+
+        .listContainer::-webkit-scrollbar-track {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
         .list-item {
-            border: 2px solid white;
+            border: 2px solid rgb(175, 175, 175);
             border-radius: 10px;
             width: 400px;
             height: 250px;
@@ -45,7 +70,7 @@
             display: flex;
             border-radius: 20px;
             overflow: hidden;
-            width: 300px;
+            width: 200px;
         }
 
         .segment {
@@ -71,26 +96,103 @@
             ;
         }
 
-        input[type="radio"]:checked+.segment1 {
-            background-color: #000000;
-            ;
-            color: #E0E0E0;
+
+        .btn-group .button-82-pushable .button-82-front {
+            padding: 10px;
+            margin: 0px;
+            font-size: 0.8rem;
         }
 
-        input[type="radio"]:checked+.segment2 {
-            background-color: #000000;
-            ;
-            color: #E0E0E0;
+        .shadow-input {
+            background-color: rgba(211, 211, 211, 0);
+            /* 灰色背景 */
+            border: 1px solid #D3D3D3;
+            /* 邊框顏色 */
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            /* 較為明顯的陰
+            /* 陰影效果 */
+            /* 移除邊框 */
+            padding: 8px 12px;
+            /* 內部間距 */
         }
 
+        .shadow-input:focus {
+            outline: none;
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+            /* 焦點時的陰影效果 */
+        }
+
+        /* 定義下拉選單的基本樣式 */
+        select.custom-dropdown {
+            font-size: 16px;
+            /* 字體大小 */
+            border: 1px solid #D3D3D3;
+            /* 邊框顏色 */
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            /* 圓角 */
+            width: 200px;
+            /* 寬度 */
+            padding: 8px 12px;
+            /* 內部間距 */
+            appearance: none;
+            /* 移除預設的外觀 */
+            -webkit-appearance: none;
+            /* 移除預設的外觀 (Chrome) */
+            -moz-appearance: none;
+            /* 移除預設的外觀 (Firefox) */
+            background-color: #FFFFFF;
+            /* 背景色 */
+            cursor: pointer;
+            /* 滑鼠樣式 */
+        }
+
+        /* 為下拉選單加入背景箭頭圖示 */
+        select.custom-dropdown::-ms-expand {
+            display: none;
+            /* 隱藏預設的箭頭 (IE) */
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 5px;
+            /* Separation between the two rows */
+        }
+
+        select.custom-dropdown::after {
+            content: '\25BC';
+            /* 添加箭頭 */
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+        }
+
+        input[type="radio"]:checked+.segment1,
+        input[type="radio"]:checked+.segment2,
         input[type="radio"]:checked+.segment3 {
             background-color: #000000;
-            ;
             color: #E0E0E0;
         }
 
         input[type="radio"] {
             display: none;
+        }
+
+        /* 定義下拉選單的焦點樣式 */
+        select.custom-dropdown:focus {
+            outline: none;
+            /* 移除焦點時的邊框 */
+            border-color: #007BFF;
+            /* 焦點時的邊框顏色 */
+        }
+
+        /* 定義選項的樣式 */
+        select.custom-dropdown option {
+            padding: 8px 12px;
+            /* 內部間距 */
         }
     </style>
 </head>
@@ -108,16 +210,20 @@
     </div>
     <div class="mid">
         <div class="content">
+            <h1>規劃行程</h1>
+            <h2>行程結果:</h2>
+            <p id="resultText"></p>
+        
             <div id="listContainer">
                 <div class="list-item">
                     <div class="input-section">
-                        <input type="text" placeholder="地點名稱">
-                        <select>
-                            <option value="模式1">模式1</option>
-                            <option value="模式2">模式2</option>
-                            <option value="模式3">模式3</option>
+                        <input type="text" placeholder="地點名稱" class="shadow-input">
+                        <select class="custom-dropdown">
+                            <option value="模式1">機車</option>
+                            <option value="模式2">汽車</option>
+                            <option value="模式3">走路</option>
                         </select>
-                        <div class="rounded-container" style="display: none;">
+                        <div class="rounded-container">
                             <input type="radio" id="mode1" name="mode" value="mode1">
                             <label for="mode1" class="segment segment1">想待</label>
 
@@ -127,26 +233,47 @@
                             <input type="radio" id="mode3" name="mode" value="mode3">
                             <label for="mode3" class="segment segment3">離開</label>
                         </div>
-
-                    </div>
-                    <div class="map-section">
-                        <div class="mini-map" style="width: 100px; height: 60px; background-color: #E0E0E0;">地圖</div>
-                        <div class="btn-group">
-                            <button onclick="moveItemUp(this)">往上移</button>
-                            <button onclick="moveItemDown(this)">往下移</button>
-                            <button onclick="deleteItem(this)">刪除</button>
+                        <div id="timeContainer">
+                            <input type="time" class="shadow-input" id="timeInput" style="display: none;">
+                            <div id="durationInput" style="display: none;">
+                                <input type="number" placeholder="Hours" id="hoursInput" min="0" max="24"
+                                    class="shadow-input">
+                                <input type="number" placeholder="Minutes" id="minutesInput" min="0" max="59"
+                                    class="shadow-input">
+                            </div>
                         </div>
 
                     </div>
+                    <div class="map-section">
+                        <div class="mini-map" style="width: 135px; height: 120px; background-color: #E0E0E0;">地圖</div>
 
+                        <div class="btn-group">
+                            <div class="btn-row">
+                                <button class="button-82-pushable" onclick="moveItemUp(this)">
+                                    <span class="button-82-front text">往上移</span>
+                                </button>
+                                <button class="button-82-pushable" onclick="moveItemDown(this)">
+                                    <span class="button-82-front text">往下移</span>
+                                </button>
+                            </div>
+                            <button class="button-82-pushable" onclick="deleteItem(this)">
+                                <span class="button-82-front text">刪除</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
+
             </div>
             <button class="button-82-pushable" role="button" onclick="addItem()">
                 <span class="button-82-front text">
                     新增
                 </span>
             </button>
-
+            <button class="button-82-pushable" role="button" onclick="handleSubmit()">
+                <span class="button-82-front text">
+                    送出資料
+                </span>
+            </button>
             <h5>@copy right derder4.0</h5>
         </div>
     </div>
@@ -157,14 +284,17 @@
         let count = 1;
         document.getElementById("listContainer").addEventListener("click", function (e) {
             if (e.target && e.target.nodeName == "BUTTON") {
-                const btn = e.target;
-
-                if (btn.textContent === "刪除") {
-                    deleteItem(btn);
-                } else if (btn.textContent === "往上移") {
-                    moveItemUp(btn);
-                } else if (btn.textContent === "往下移") {
-                    moveItemDown(btn);
+                const action = e.target.getAttribute('data-action');
+                switch(action) {
+                    case 'delete':
+                        deleteItem(e.target);
+                        break;
+                    case 'moveUp':
+                        moveItemUp(e.target);
+                        break;
+                    case 'moveDown':
+                        moveItemDown(e.target);
+                        break;
                 }
             }
         });
@@ -174,58 +304,233 @@
                 const newItem = document.createElement("div");
                 newItem.classList.add("list-item");
                 newItem.innerHTML = `
-        <div class="input-section">
-            <input type="text" placeholder="地點名稱">
-            <select>
-                <option value="模式1">模式1</option>
-                <option value="模式2">模式2</option>
-                <option value="模式3">模式3</option>
-            </select>
-        </div>
-        <div class="map-section">
-            <div class="mini-map" style="width: 100px; height: 60px; background-color: #E0E0E0;">地圖</div>
-            <div class="btn-group">
-                <button>往上移</button>
-                <button>往下移</button>
-                <button>刪除</button>
-            </div>
-        </div>`;
+                <div class="input-section">
+                    <input type="text" placeholder="地點名稱" class="shadow-input">
+                    <select class="custom-dropdown">
+                        <option value="模式1">機車</option>
+                        <option value="模式2">汽車</option>
+                        <option value="模式3">走路</option>
+                    </select>
+                    <div class="rounded-container">
+                        <input type="radio" id="mode1-${count}" name="mode-${count}" value="mode1">
+                        <label for="mode1-${count}" class="segment segment1">想待</label>
+
+                        <input type="radio" id="mode2-${count}" name="mode-${count}" value="mode2">
+                        <label for="mode2-${count}" class="segment segment2">到達</label>
+
+                        <input type="radio" id="mode3-${count}" name="mode-${count}" value="mode3">
+                        <label for="mode3-${count}" class="segment segment3">離開</label>
+                    </div>
+                </div>
+                
+                <div class="time-container">
+                    <input type="time" class="shadow-input time-input" style="display: none;">
+                    <div class="duration-input" style="display: none;">
+                        <input type="number" placeholder="Hours" min="0" max="24" class="shadow-input hours-input">
+                        <input type="number" placeholder="Minutes" min="0" max="59" class="shadow-input minutes-input">
+                    </div>
+                </div>
+
+                <div class="map-section">
+                    <div class="mini-map" style="width: 135px; height: 120px; background-color: #E0E0E0;">地圖</div>
+                    <div class="btn-group">
+                        <div class="btn-row">
+                            <button class="button-82-pushable" data-action="moveUp">
+                                <span class="button-82-front text">往上移</span>
+                            </button>
+                            <button class="button-82-pushable" data-action="moveDown">
+                                <span class="button-82-front text">往下移</span>
+                            </button>
+                        </div>
+                        <button class="button-82-pushable" data-action="delete">
+                            <span class="button-82-front text">刪除</span>
+                        </button>
+                    </div>
+                </div>
+                `;
+                const newRadioButtons = newItem.querySelectorAll('input[type="radio"]');
+                newRadioButtons.forEach(radio => {
+                    radio.addEventListener('change', handleRadioButtonChange);
+                });
                 document.getElementById("listContainer").appendChild(newItem);
-                document.querySelector('.rounded-container').style.display = 'block';
-
                 count++;
+                }
+        }
+
+        function handleRadioButtonChange() {
+            const timeInput = this.closest('.input-section').querySelector('.time-input');
+            const durationInput = this.closest('.input-section').querySelector('.duration-input');
+
+            if (this.value === 'mode1') { 
+                timeInput.style.display = 'none';
+                durationInput.style.display = 'flex';
+            } else if (this.value === 'mode2' || this.value === 'mode3') {
+                timeInput.style.display = 'block';
+                durationInput.style.display = 'none';
+            }
+        }
+
+            // 在 DOMContentLoaded 事件中，為已存在的 radio buttons 添加事件監聽器
+                document.addEventListener("DOMContentLoaded", function () {
+               const radioButtons = document.querySelectorAll('input[type="radio"]');
+                 radioButtons.forEach(radio => {
+                radio.addEventListener('change', handleRadioButtonChange);
+                });
+            });
+
+            function displayRouteResult(resultText) {
+            const resultContainer = document.getElementById('resultText');
+            resultContainer.textContent = resultText;
+            }
+            
+            function handleSubmit() {
+            const routeItems = document.querySelectorAll('.list-item');
+            const firstRoute = routeItems[0];
+            const secondRoute = routeItems[1];
+
+            // 假設你的calculateDistanceAndDuration函數已經定義，並返回一個對象{distance, duration}
+            let result = calculateDistanceAndDuration(firstRoute, secondRoute);
+
+            // 以下是你的算法邏輯
+            if (routeItems.length === 1) {
+                // 只有一個行程的情況
+                handleSingleRoute(firstRoute);
+            } else if (firstRoute && secondRoute) {
+                handleTwoRoutes(firstRoute, secondRoute);
+            } else if (routeItems.length > 2) {
+                handleMultipleRoutes(routeItems);
+            }
+            }
+            function handleSingleRoute(route) {
+            // 處理只有一個行程的情況
+            let arrivalTime = route.querySelector('#timeInput').value;
+
+            if (arrivalTime) {
+                let travelDuration = calculateTravelTime(); // 假設這個函數能返回路程所需的時間
+                let departureTime = subtractTime(arrivalTime, travelDuration);
+
+                displayRouteResult(`只有一個行程。你應該在${departureTime}從當前位置出發。`);
             } else {
-                alert("最多只能新增五個項目");
-            }
-        }
-        function deleteItem(btn) {
-            const listContainer = document.getElementById("listContainer");
-            const items = listContainer.querySelectorAll('.list-item');
-
-            if (items.length <= 1) {
-                alert("至少需要保留一個項目");
-            } else {
-                btn.closest('.list-item').remove();
-                count--;
+                displayRouteResult("只有一個行程。沒有設定抵達時間。");
             }
         }
 
-        function moveItemUp(btn) {
-            const item = btn.closest('.list-item');
-            const prevItem = item.previousElementSibling;
-            if (prevItem) {
-                item.parentNode.insertBefore(item, prevItem);
-            }
-        }
+            function handleTwoRoutes(route1, route2) {
+                // 處理有兩個行程的情況
+                let departureTime1 = route1.querySelector('#timeInput').value;
+                let stayDuration1 = route1.querySelector('#durationInput').value;
+                let arrivalTime2 = route2.querySelector('#timeInput').value;
 
-        function moveItemDown(btn) {
-            const item = btn.closest('.list-item');
-            const nextItem = item.nextElementSibling;
-            if (nextItem) {
-                item.parentNode.insertBefore(nextItem, item);
+                if (departureTime1 && arrivalTime2) {
+                    let travelDuration = calculateTravelTimeBetween(route1, route2); 
+                    let expectedArrival = addTime(departureTime1, travelDuration);
+                    if (isTimeBefore(expectedArrival, arrivalTime2)) {
+                        displayRouteResult(`行程一在${departureTime1}出發，預計在${expectedArrival}到達行程二地點。`);
+                    } else {
+                        displayRouteResult(`從行程一地點在${departureTime1}出發到達行程二的時間與行程二的抵達時間有衝突，請調整。`);
+                    }
+                } else if (departureTime1 && stayDuration1) {
+                    // 如果只設定了行程一的出發時間和停留時間
+                    // ... 你可以在這裡進行計算
+                    displayRouteResult(`行程一在${departureTime1}出發，預計停留${stayDuration1}時間。`);
+                } else {
+                    displayRouteResult("兩個行程的部分資料缺失。");
+                }
             }
-        }
 
+            function handleMultipleRoutes(routes) {
+                // 處理多於兩個行程的情況
+
+                let messages = [];
+                for (let i = 0; i < routes.length - 1; i++) {
+                    let currentRoute = routes[i];
+                    let nextRoute = routes[i + 1];
+                    let departureTimeCurrent = currentRoute.querySelector('#timeInput').value;
+                    let arrivalTimeNext = nextRoute.querySelector('#timeInput').value;
+
+                    if (departureTimeCurrent && arrivalTimeNext) {
+                        let travelDuration = calculateTravelTimeBetween(currentRoute, nextRoute);
+                        let expectedArrival = addTime(departureTimeCurrent, travelDuration);
+                        if (isTimeBefore(expectedArrival, arrivalTimeNext)) {
+                            messages.push(`行程${i + 1}在${departureTimeCurrent}出發，預計在${expectedArrival}到達行程${i + 2}地點。`);
+                        } else {
+                            messages.push(`行程${i + 1}和行程${i + 2}之間的時間設定有問題，請確認。`);
+                        }
+                    } else {
+                        messages.push(`行程${i + 1}或行程${i + 2}的部分資料缺失。`);
+                    }
+                }
+
+                displayRouteResult(messages.join('\n'));
+            }
+            function addTime(time1, time2) {
+                const parts1 = time1.split(':').map(Number);
+                const parts2 = time2.split(':').map(Number);
+                
+                let hours = parts1[0] + parts2[0];
+                let minutes = parts1[1] + parts2[1];
+                
+                if (minutes >= 60) {
+                    hours += 1;
+                    minutes -= 60;
+                }
+
+                return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+            }
+            function subtractTime(time1, time2) {
+            const parts1 = time1.split(':').map(Number);
+            const parts2 = time2.split(':').map(Number);
+            
+            let hours = parts1[0] - parts2[0];
+            let minutes = parts1[1] - parts2[1];
+            
+            if (minutes < 0) {
+                hours -= 1;
+                minutes += 60;
+            }
+
+            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+            }   
+
+            function isTimeBefore(time1, time2) {
+            const parts1 = time1.split(':').map(Number);
+            const parts2 = time2.split(':').map(Number);
+            
+            if (parts1[0] < parts2[0]) {
+                return true;
+            } else if (parts1[0] === parts2[0] && parts1[1] < parts2[1]) {
+                return true;
+            }
+            return false;
+            }   
+
+            function deleteItem(btn) {
+                const listContainer = document.getElementById("listContainer");
+                const items = listContainer.querySelectorAll('.list-item');
+                if (items.length <= 1) {
+                    alert("至少需要保留一個項目");
+                } else {
+                    btn.closest('.list-item').remove();
+                    count--;
+                }
+            }
+
+            function moveItemUp(btn) {
+                const item = btn.closest('.list-item');
+                const prevItem = item.previousElementSibling;
+                if (prevItem) {
+                    item.parentNode.insertBefore(item, prevItem);
+                }
+            }
+
+            function moveItemDown(btn) {
+                const item = btn.closest('.list-item');
+                const nextItem = item.nextElementSibling;
+                if (nextItem) {
+                    item.parentNode.insertBefore(nextItem, item);
+                }
+            }
+        
     </script>
 
 </body>
