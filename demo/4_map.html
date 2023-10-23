@@ -122,19 +122,52 @@
 
     <script>
             var map;
-            var marker; // 定義標記變數
+            console.log(JSON.parse(localStorage.getItem('tripData')));
 
             function initMap() {
                 map = new google.maps.Map(document.getElementById("mini-map"), {
                     center: { lat: 24.1632, lng: 120.6476 },
                     zoom: 17
                 });
-            }
 
+                const data = JSON.parse(localStorage.getItem('tripData'));
+
+                if (data && data.length > 1) {
+                    const directionsService = new google.maps.DirectionsService();
+                    const directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
+
+                    const start = new google.maps.LatLng(parseFloat(data[0].latitude), parseFloat(data[0].longitude));
+                    const end = new google.maps.LatLng(parseFloat(data[data.length - 1].latitude), parseFloat(data[data.length - 1].longitude));
+
+                    const waypoints = [];
+                    for (let i = 1; i < data.length - 1; i++) {
+                        waypoints.push({
+                            location: new google.maps.LatLng(parseFloat(data[i].latitude), parseFloat(data[i].longitude)),
+                            stopover: true
+                        });
+                    }
+
+                    const request = {
+                        origin: start,
+                        destination: end,
+                        waypoints: waypoints,
+                        optimizeWaypoints: true,  
+                        travelMode: 'DRIVING'  
+                    };
+
+                    directionsService.route(request, function(result, status) {
+                        if (status == 'OK') {
+                            directionsRenderer.setDirections(result);
+                        } else {
+                            console.error("Directions request failed due to " + status);
+                        }
+                    });
+                }
+            }
 
             document.addEventListener("DOMContentLoaded", function () {
 
-                const data = JSON.parse(localStorage.getItem('tripData'));
+                var data = JSON.parse(localStorage.getItem('tripData'));
 
                 if (data && data.length) {
                     
@@ -146,15 +179,6 @@
                     if (locationNameElement) {
                         locationNameElement.textContent = "地點: " + locationNames;
                     }
-                    
-                    // 為每個地點在地圖上添加標記
-                    data.forEach(locationData => {
-                        new google.maps.Marker({
-                            position: { lat: locationData.lat, lng: locationData.lng },
-                            map: map,
-                            title: locationData.locationName
-                        });
-                    });
 
                     // 從數據中提取所有的出發時間
                     const departureTimes = data.map(item => item.time).filter(time => time);
@@ -190,6 +214,8 @@
                     tripDurationElement.className = "label";
                     tripDurationElement.textContent = `行程時間: ${hoursDiff}小時 ${minutesDiff}分鐘`;
                     document.getElementById("timeContainer").appendChild(tripDurationElement);
+
+
                 }
                 
         });

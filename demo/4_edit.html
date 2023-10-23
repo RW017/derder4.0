@@ -475,10 +475,9 @@
                 const items = document.querySelectorAll('.list-item');
 
                 items.forEach(item => {
-                    const locationInput = item.querySelector('.shadow-input');
                     const transportSelect = item.querySelector('.custom-dropdown');
                     const modeRadio = item.querySelector('input[name^="mode"]:checked');
-                    const locationSelect = item.querySelector('.shadow-input');
+                    const locationSelect = item.querySelector('select.shadow-input');
                     let latitude, longitude;
                     let timeInput, hoursInput, minutesInput, locationName, transportMode, mode;
 
@@ -488,8 +487,8 @@
                         longitude = selectedOption.getAttribute('data-lng');
                     }
 
-                    if (locationInput) {
-                        locationName = locationInput.value;
+                    if (locationSelect) {
+                        locationName = locationSelect.value;
                     }
 
                     if (transportSelect) {
@@ -517,7 +516,7 @@
                             time = timeInput.value;
                         }
                     }
-
+                        
                     if (locationName && transportMode && mode) {
                         itineraryData.push({
                             locationName,
@@ -530,10 +529,15 @@
                             longitude 
                         });
                     }
-                });
 
+                console.log("Latitude:", latitude);
+                console.log("Longitude:", longitude);
+
+                
                 localStorage.setItem('tripData', JSON.stringify(itineraryData));
                 window.location.href = "4_map.html";
+                });
+
             }                    
 
 
