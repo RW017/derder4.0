@@ -116,6 +116,8 @@
             <a href="#">登出</a>
         </div>
     </div>
+    
+    
     <div class="mid">
         <div class="content">
             <!-- 標頭黃色區域 -->
@@ -137,11 +139,11 @@
             <div class="chop">
 
             </div>
+            <!-- map -->
+            <div id="map"> </div>
+
             <!-- 目前行程部分 -->
             <div class="goon">
-                <div id="map"></div>
-
-
                 <a href="4_edit.html">
                     <button class="button-82-pushable" role="button">
                         <span class="button-82-front text">
@@ -160,6 +162,7 @@
 
     <!-- Google Maps JavaScript Code -->
     <script>
+        
         var map;
         var directionsService = new google.maps.DirectionsService();
         var directionsRenderer = new google.maps.DirectionsRenderer();
@@ -170,6 +173,10 @@
                 zoom: 15,
                 center: { lat: -34.397, lng: 150.644 }
             });
+
+            directionsService = new google.maps.DirectionsService();
+            directionsRenderer = new google.maps.DirectionsRenderer();
+            directionsRenderer.setMap(map); // Important to set it to the map!
 
             // Check if geolocation is supported by the browser
             if (navigator.geolocation) {
