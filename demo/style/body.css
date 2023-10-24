@@ -65,12 +65,12 @@ html {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     overflow-y: scroll;
     position: relative;
     min-height: 0;
     min-width: 0;
 }
+
 
 .mid::-webkit-scrollbar {
     display: none;
@@ -79,6 +79,14 @@ html {
 .mid {
     scrollbar-width: none;
 }
+.mid-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* or any width you prefer */
+}
+
 
 .content div,
 .content p,
