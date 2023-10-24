@@ -171,13 +171,13 @@
 
                 if (data && data.length) {
                     
-                    // 從數據中提取所有的 locationName
-                    const locationNames = data.map(item => item.locationName).join(', ');
+                    // 從數據中提取所有的 locationName，並為每一個地點加上序位
+                    const locationNames = data.map((item, index) => `${String.fromCharCode(65 + index)}. ${item.locationName}`).join('\n');
 
                     // 地點名稱
                     const locationNameElement = document.querySelector(".label");
                     if (locationNameElement) {
-                        locationNameElement.textContent = "地點: " + locationNames;
+                        locationNameElement.textContent = "地點:\n" + locationNames;
                     }
 
                     // 從數據中提取所有的出發時間

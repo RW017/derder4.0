@@ -444,7 +444,62 @@
                 if (window.google && google.maps) {
                     initMap();
                 }
+                loadSavedData();
+
             };
+            function loadSavedData() {
+            const savedData = JSON.parse(localStorage.getItem('tripData'));
+
+                if (savedData && savedData.length > 0) {
+                    savedData.forEach((data, index) => {
+                        // 如果是第一個元素，則只更新值，不需要新增元素
+                        if (index === 0) {
+                            const firstItem = document.querySelector('.list-item');
+                            updateItemWithData(firstItem, data);
+                        } else {
+                            addItem();
+                            const addedItem = document.querySelectorAll('.list-item')[index];
+                            updateItemWithData(addedItem, data);
+                        }
+                    });
+                }
+            }
+            function updateItemWithData(item, data) {
+                const locationSelect = item.querySelector('.shadow-input');
+                const transportSelect = item.querySelector('.custom-dropdown');
+                const modeRadios = item.querySelectorAll('input[name^="mode"]');
+                const timeInput = item.querySelector('input[type="time"]');
+                const hoursInput = item.querySelector('#hoursInput');
+                const minutesInput = item.querySelector('#minutesInput');
+
+                if (locationSelect) {
+                    locationSelect.value = data.locationName;
+                }
+
+                if (transportSelect) {
+                    transportSelect.value = data.transportMode;
+                }
+
+                modeRadios.forEach(radio => {
+                    if (radio.value === data.mode) {
+                        radio.checked = true;
+                        radio.dispatchEvent(new Event('change'));  // 觸發 radio button change 事件來更新顯示的時間輸入
+                    }
+                });
+
+                if (timeInput) {
+                    timeInput.value = data.time;
+                }
+
+                if (hoursInput && data.hours) {
+                    hoursInput.value = data.hours;
+                }
+
+                if (minutesInput && data.minutes) {
+                    minutesInput.value = data.minutes;
+                }
+            }
+
 
             function handleRadioButtonChange() {
                 const listItem = this.closest('.list-item');

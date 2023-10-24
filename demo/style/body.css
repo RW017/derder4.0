@@ -80,10 +80,14 @@ html {
     scrollbar-width: none;
 }
 
-.content * {
+.content div,
+.content p,
+.content img,
+.content a,
+.content ul,
+.content li {
     box-sizing: border-box;
     max-width: 100%;
-    overflow:visible;
 }
 
 .content {
